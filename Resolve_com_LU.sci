@@ -30,33 +30,6 @@ function [C, P]=Gaussian_Elimination_4(A, b)
     C=C(1:n,1:n);
 endfunction
 
-// function [X]=Resolve_com_LU(C, B, P)
-//     B = P * B
-
-//     [n] = size(C, 1)
-    
-//     X=zeros(B);
-//     // Calcula x, sendo Ux=C(1:n,n+1)
-//     X(n,:)=B(n,:)/C(n,n);
-//     // x(n)=C(n,n+1)/C(n,n);
-    
-//     for i=n-1:-1:1
-//         X(i,:)=(B(i,:)-C(i,i+1:n)*X(i+1:n,:))/C(i,i);
-//     end
-
-//     // transformando diagonal em um
-//     for i=1:n
-//         C(i,i) = 1
-//     end
-    
-//     //calcula x sendo Lx=C(1:n,n+1)
-//     X(1,:)=B(1,:)/C(1,1);
-
-//     for i=2:n
-//         X(i,:)=(B(i,:)-C(i,1:i)*X(1:i,:))/C(i,i);
-//     end
-// endfunction
-
 function [X]=Resolve_com_LU(C, B, P)
     B = P * B
 
@@ -97,11 +70,6 @@ function [X]=Resolve_com_LU(C, B, P)
     for i=n-1:-1:1
         X(i,:)=(Y(i,:)-C(i,i+1:n)*X(i+1:n,:))/C(i,i);
     end
-
-    // transformando diagonal em um
-    // for i=1:n
-    //     C(i,i) = 1
-    // end
 endfunction
 
 A1 = [1 -2 5 0;
