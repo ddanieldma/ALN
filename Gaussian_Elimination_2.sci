@@ -31,15 +31,15 @@ function [x, C]=Gaussian_Elimination_2(A, b)
     C=C(1:n,1:n);
 endfunction
 
-mat = [0, 10^(-20), 1;
+A2 = [0, 10^(-20), 1;
        10^(-20), 1, 1;
        1, 2, 1]
        
-vec = [1; 0; 0]
+b2 = [1; 0; 0]
 
-[x, C] = Gaussian_Elimination_2(mat, vec)
+[x2, C2] = Gaussian_Elimination_2(A2, b2)
 
-disp(C)
-disp(x)
-
-disp(mat * x)
+disp("Matriz C2:")
+disp(C2)
+disp("Vetor x2:")
+disp(x2)

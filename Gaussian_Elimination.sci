@@ -58,10 +58,17 @@ disp(vec_1)
 disp(lu_1)
 disp(x_1)
 
+disp("========================")
 
+disp("Questão 2")
 // 2) Agora teste com a matriz A1=[1 -2 5 0; 2 -4 1 3; -1 1 0 2; 0 3 3 1] e com o vetor b1=[1;0;0;0]
-matriz_q2 = [1 -2 5 0;
-             2 -4 1 3; 
-             -1 1 0 2; 
-             0 3 3 1]
-vetor_q2 = [1; 0; 0; 0]
+A1 = [1 -2 5 0;
+      2 -4 1 3; 
+      -1 1 0 2; 
+      0 3 3 1]
+b1 = [1; 0; 0; 0]
+
+[x1, C1] = Gaussian_Elimination_1(A1, b1)
+
+disp(C1)
+disp(x1)

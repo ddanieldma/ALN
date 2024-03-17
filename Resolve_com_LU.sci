@@ -1,20 +1,133 @@
-function [X]=Resolve_com_LU(C, B)
-    LUx = b
-    Ux = y => Ly = b
+function [P] = Create_Permutation(size_m, line_1, line_2)
+    //create identity matrix
+    I = eye(size_m, size_m)
+    // permutate its lines
+    I([line_1, line_2], :) = I([line_2, line_1], :)
+    P = I
+endfunction
+
+function [C, P]=Gaussian_Elimination_4(A, b)
+    C=[A,b];
+    [n]=size(C,1);
     
-    [n] = size(A, 1)
-    
-    //separando matrix C em L e U
-    L = C()
-    
-    X = B
-    
-    for i=1:n
-        for j=1:n 
-            X(i, :) = 
+    // matriz identidade que vai "armazenar" todas as matrizes de permutação usadas ao longo da função
+    P = eye(n, n)
+
+    for j=1:(n-1)
+        // agora pegamos apenas o pivo com maior valor absoluto e usamos ele para criar a matrix de permutação e aplicá-la na nossa matriz C
+        [max_value, max_index] = max(abs(C(j:n,:)));
+        [Perm] = Create_Permutation(n, j, max_index)
+
+        // multiplicando C e a identidade pela matriz de permutação
+        C = Perm * C
+        P = Perm * P
+        for i=(j+1):n
+            C(i,j)=C(i,j)/C(j,j);
+            C(i,j+1:n+1)=C(i,j+1:n+1)-C(i,j)*C(j,j+1:n+1);
         end
     end
     
-    for j=1:(n-1)
-    
+    C=C(1:n,1:n);
 endfunction
+
+// function [X]=Resolve_com_LU(C, B, P)
+//     B = P * B
+
+//     [n] = size(C, 1)
+    
+//     X=zeros(B);
+//     // Calcula x, sendo Ux=C(1:n,n+1)
+//     X(n,:)=B(n,:)/C(n,n);
+//     // x(n)=C(n,n+1)/C(n,n);
+    
+//     for i=n-1:-1:1
+//         X(i,:)=(B(i,:)-C(i,i+1:n)*X(i+1:n,:))/C(i,i);
+//     end
+
+//     // transformando diagonal em um
+//     for i=1:n
+//         C(i,i) = 1
+//     end
+    
+//     //calcula x sendo Lx=C(1:n,n+1)
+//     X(1,:)=B(1,:)/C(1,1);
+
+//     for i=2:n
+//         X(i,:)=(B(i,:)-C(i,1:i)*X(1:i,:))/C(i,i);
+//     end
+// endfunction
+
+function [X]=Resolve_com_LU(C, B, P)
+    B = P * B
+
+    disp("Perm")
+    disp(B)
+
+    [n] = size(C, 1)
+    
+    //calcula y sendo y = Ux e Ly = b
+    Y=zeros(B);
+    Y(1,:)=B(1,:)/C(1,1);
+
+
+    for i=2:n
+        Y(i,:)=(B(i,:)-C(i,1:i)*Y(1:i,:))/C(i,i);
+    end
+
+    teste = C
+
+    for i=1:n
+        for j=1:n
+            if j > i then
+                teste(i,j) = 0
+            end
+        end
+    end
+
+    disp("teste")    
+    disp(teste)
+    disp(teste * Y)
+
+    //calcula x sendo Ux = y
+    X=zeros(Y);
+    // Calcula x, sendo Ux=C(1:n,n+1)
+    X(n,:)=Y(n,:)/C(n,n);
+    // x(n)=C(n,n+1)/C(n,n);
+    
+    for i=n-1:-1:1
+        X(i,:)=(Y(i,:)-C(i,i+1:n)*X(i+1:n,:))/C(i,i);
+    end
+
+    // transformando diagonal em um
+    // for i=1:n
+    //     C(i,i) = 1
+    // end
+endfunction
+
+A1 = [1 -2 5 0;
+      2 -4 1 3; 
+      -1 1 0 2; 
+      0 3 3 1]
+B1 = [2 4 -1 5;
+      0 1 0 3;
+      2 2 -1 1;
+      0 1 1 5]
+      
+[C1, P1] = Gaussian_Elimination_4(A1, B1(:,1))
+[X] = Resolve_com_LU(C1, B1, P1)
+
+disp(X)
+
+A2 = [0, 10^(-20), 1;
+       10^(-20), 1, 1;
+       1, 2, 1]
+       
+B2 = [1 1 2;
+      1 -1 0;
+      1 0 1]
+      
+[C2, P2] = Gaussian_Elimination_4(A2, B2(:,1))
+[X] = Resolve_com_LU(C2, B2, P2)
+
+disp(X)
+disp(A2 * X)

@@ -29,15 +29,15 @@ function [x, C]=Gaussian_Elimination_3(A, b)
     C=C(1:n,1:n);
 endfunction
 
-mat = [10^(-20), 10^(-20), 1;
+A3 = [10^(-20), 10^(-20), 1;
        10^(-20), 1, 1;
        1, 2, 1]
        
-vec = [1; 0; 0]
+b3 = [1; 0; 0]
 
-[x, C] = Gaussian_Elimination_3(mat, vec)
+[x3, C3] = Gaussian_Elimination_3(A3, b3)
 
-disp(C)
-disp(x)
-
-disp(mat * x)
+disp("Matriz C3")
+disp(C3)
+disp("Vetor x3")
+disp(x3)

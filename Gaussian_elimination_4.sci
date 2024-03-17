@@ -41,16 +41,17 @@ function [x, C, P]=Gaussian_Elimination_4(A, b)
     C=C(1:n,1:n);
 endfunction
 
-matriz = [1, 2, -5, 3;
-          1, 5, 6, 6;
-          7, 8 ,9, 9;
-          4, 5, 6, 6]
-          
-[valor, indice] = max(abs(matriz(:,1)))
+A3 = [10^(-20), 10^(-20), 1;
+       10^(-20), 1, 1;
+       1, 2, 1]
+       
+b3 = [1; 0; 0]
 
-disp(valor)
-disp(indice)
+[x3, C3, P] = Gaussian_Elimination_4(A3, b3)
 
-[n] = size(matriz, 1)
-
-[oi] = Create_Permutation(n, 2, 3)
+disp("Matriz C3:")
+disp(C3)
+disp("Vetor x3:")
+disp(x3)
+disp("Matriz de permutação:")
+disp(P)
