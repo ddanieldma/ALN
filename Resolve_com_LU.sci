@@ -31,31 +31,27 @@ function [C, P]=Gaussian_Elimination_4(A, b)
 endfunction
 
 function [X]=Resolve_com_LU(C, B, P)
+    [n] = size(C, 1)
+    L = tril(C, -1) + eye(n,n)
+    U = triu(C)
     B = P * B
-
+    
     disp("Perm")
     disp(B)
 
-    [n] = size(C, 1)
-    
     //calcula y sendo y = Ux e Ly = b
     Y=zeros(B);
     Y(1,:)=B(1,:)/C(1,1);
 
 
+    // for i=2:n
+    //     Y(i,:)=(B(i,:)-C(i,1:i)*Y(1:i,:))/C(i,i);
+    // end
     for i=2:n
-        Y(i,:)=(B(i,:)-C(i,1:i)*Y(1:i,:))/C(i,i);
+        Y(i,:)=(B(i,:)-L(i,1:i)*Y(1:i,:))/L(i,i);
     end
 
-    teste = C
-
-    for i=1:n
-        for j=1:n
-            if j > i then
-                teste(i,j) = 0
-            end
-        end
-    end
+    teste = L
 
     disp("teste")    
     disp(teste)
@@ -67,8 +63,11 @@ function [X]=Resolve_com_LU(C, B, P)
     X(n,:)=Y(n,:)/C(n,n);
     // x(n)=C(n,n+1)/C(n,n);
     
+    // for i=n-1:-1:1
+    //     X(i,:)=(Y(i,:)-C(i,i+1:n)*X(i+1:n,:))/C(i,i);
+    // end
     for i=n-1:-1:1
-        X(i,:)=(Y(i,:)-C(i,i+1:n)*X(i+1:n,:))/C(i,i);
+        X(i,:)=(Y(i,:)-U(i,i+1:n)*X(i+1:n,:))/U(i,i);
     end
 endfunction
 
@@ -97,5 +96,6 @@ B2 = [1 1 2;
 [C2, P2] = Gaussian_Elimination_4(A2, B2(:,1))
 [X] = Resolve_com_LU(C2, B2, P2)
 
+disp("X e A2 * X")
 disp(X)
 disp(A2 * X)
