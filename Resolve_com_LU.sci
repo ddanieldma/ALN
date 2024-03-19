@@ -31,43 +31,36 @@ function [C, P]=Gaussian_Elimination_4(A, b)
 endfunction
 
 function [X]=Resolve_com_LU(C, B, P)
-    [n] = size(C, 1)
+    [n] = size(B, 1)
+    [m] = size(B, 2)
     L = tril(C, -1) + eye(n,n)
     U = triu(C)
     B = P * B
-    
-    disp("Perm")
-    disp(B)
 
     //calcula y sendo y = Ux e Ly = b
     Y=zeros(B);
-    Y(1,:)=B(1,:)/C(1,1);
+    Y(1,:)=B(1,:)
 
-
-    // for i=2:n
-    //     Y(i,:)=(B(i,:)-C(i,1:i)*Y(1:i,:))/C(i,i);
-    // end
     for i=2:n
-        Y(i,:)=(B(i,:)-L(i,1:i)*Y(1:i,:))/L(i,i);
+        Y(i,:)=(B(i,:)-L(i,1:(i-1))*Y(1:(i-1),:));
     end
 
-    teste = L
-
-    disp("teste")    
-    disp(teste)
-    disp(teste * Y)
-
+    teste = Y
+    
+    disp("teste")
+    disp("matriz B permutada")
+    disp(B)
+    disp("matriz Y")
+    disp(Y)
+    disp("L * Y, que deveria ser igual a B")
+    disp(L * Y)
+    
     //calcula x sendo Ux = y
     X=zeros(Y);
-    // Calcula x, sendo Ux=C(1:n,n+1)
-    X(n,:)=Y(n,:)/C(n,n);
-    // x(n)=C(n,n+1)/C(n,n);
+    X(n,:)=Y(n,:)/U(n,n);
     
-    // for i=n-1:-1:1
-    //     X(i,:)=(Y(i,:)-C(i,i+1:n)*X(i+1:n,:))/C(i,i);
-    // end
     for i=n-1:-1:1
-        X(i,:)=(Y(i,:)-U(i,i+1:n)*X(i+1:n,:))/U(i,i);
+        X(i,:)=(Y(i,:)-U(i,i+1:m)*X(i+1:n,:))/U(i,i);
     end
 endfunction
 
