@@ -104,7 +104,7 @@ function [x, C]=Gaussian_Elimination_3(A, b)
 endfunction
 ```
 
-A diferença dessa função para questão anterior está no fato de que agora usamos a função ```max``` junto da função abs. A primeira localiza o maior elemento de um vetor ou matriz e retorna seu índice, enquanto a segunda transforma todos os números em seu valor absoluto, de forma que, com as duas, encontramos o maior valor em módulo para o pivô. Após encontrarmos o índice desse novo pivô, a lógica da função permanece a mesma. Retorno da questão 4:
+A diferença dessa função para questão anterior está no fato de que agora usamos a função ```max``` junto da função ```abs```. A primeira localiza o maior elemento de um vetor ou matriz e retorna seu índice, enquanto a segunda transforma todos os números em seu valor absoluto, de forma que, com as duas, encontramos o maior valor em módulo para o pivô. Após encontrarmos o índice desse novo pivô, a lógica da função permanece a mesma. Retorno da questão 4:
 
 <img src="q4.png" 
         alt="gaussian elimination 2" 
@@ -157,7 +157,7 @@ function [x, C, P]=Gaussian_Elimination_4(A, b)
 endfunction
 ```
 
-Nessa questão, eu criei a função auxiliar ```Create_Permutation``` que recebe o tamanho da matriz que será permutada e quais linhas serão permutadas e retorna a matriz de permutação equivalente. Na função ```Gaussian_Elimination_4``` essa função é chamada sempre e a matriz de permutação resultante multiplica tanto a matriz C quanto a matriz P, uma matriz identidade criada para armazenar todas as permutações feitas. Retorno da questão 5:
+Nessa questão, eu criei a função auxiliar ```Create_Permutation``` que recebe o tamanho da matriz que será permutada e quais linhas serão permutadas e retorna a matriz de permutação equivalente. Na função ```Gaussian_Elimination_4``` essa função é chamada sempre e a matriz de permutação resultante multiplica tanto a matriz C quanto a matriz P - uma matriz identidade criada para armazenar todas as permutações feitas. Retorno da questão 5:
 
 <img src="q5.png" 
         alt="gaussian elimination 2" 
@@ -253,9 +253,21 @@ disp("X e A2 * X")
 disp(X)
 disp(A2 * X)
 ```
-Nessa função eu reutilizo o código da ```Gaussian_Elimination_4```, retirando apenas a parte que resolve Ux = y, já que a função que deve resolver o sistema é outra. A função ```Resolve_com_LU``` resolve primeiro LY = B "de cima para baixo" e depois UX = Y de "baixo para cima", como faríamos normalmente com álgebra linear. Cada um desses dois processos é feito com uma vetorização, onde fazemos a operação de resolução avançando pelas linhas utilizando simultaneamente todas as colunas de Y e B e depos de X e Y.
+Nessa função eu reutilizo o código da ```Gaussian_Elimination_4```, retirando apenas a parte que resolve Ux = y, já que a função que deve resolver o sistema é outra. A função ```Resolve_com_LU``` resolve primeiro LY = B "de cima para baixo" e depois UX = Y de "baixo para cima", como faríamos normalmente com álgebra linear. Cada um desses dois processos é feito com uma vetorização dentro de um for, onde fazemos a operação de resolução avançando pelas linhas (tanto para baixo quanto para cima) utilizando simultaneamente todas as colunas de Y e B e depois de X e Y. Retornos da questão 6:
 
-Ademais, gostaria de deixar claro que por algum motivo meu código não está funcionando para resolver completamente a matriz. Realizando um teste na resolução de LY = B percebi que quando multiplicando de volta L * Y para verificar se Y está correto a última linha de B fica incorreta.
+<img src="q6_1.png" 
+        alt="gaussian elimination 2" 
+        width="250" 
+        height="180" 
+	style="display: block; margin: 0 auto; position: relative" />
+
+<img src="q6_2.png" 
+        alt="gaussian elimination 2" 
+        width="200" 
+        height="150" 
+	style="display: block; margin: 0 auto; position: relative" />
+
+Ademais, gostaria de deixar claro que por algum motivo meu código não está funcionando para resolver completamente a matriz. Realizando um teste na resolução de LY = B percebi que quando multiplico de volta L * Y para adquirir B e verificar se Y está correta a última linha de B fica incorreta. Prints que mostram isso:
 
 <img src="erro LY.png" 
         alt="gaussian elimination 2" 
