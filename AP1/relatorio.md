@@ -7,13 +7,13 @@ Matrícula: 241708065, Curso: Ciência de Dados
 
 Como o código para essas questões já foi passado, vou me ater somente às matrizes passadas para a função e o resultado gerado.
 
-<img src="primeiro exemplo q1.png" 
+<img src="images/primeiro exemplo q1.png" 
         alt="primeiro exemplo" 
         width="100" 
         height="200" 
         style="display: block; margin: 0 auto; position: relative" />
 
-<img src="segundo exemplo q1.png" 
+<img src="images/segundo exemplo q1.png" 
         alt="segundo exemplo" 
         width="100" 
         height="200" 
@@ -21,7 +21,7 @@ Como o código para essas questões já foi passado, vou me ater somente às mat
 
 Nesses dois primeiros prompts temos, em ordem, a matriz de exemplo, o vetor de exemplo, a matriz e o vetor após a eliminação gaussiana. Uma coisa que conseguimos perceber é que a matriz C retornada pela função é composta pelas matriz L e U "conjugadas" em uma matriz só. Se pegarmos os números da diagonal pra baixo temos a matriz L, e da diagonal para cima (com a diagonal inclusa) temos a matriz U.
 
-<img src="q2.png" 
+<img src="images/q2.png" 
         alt="q2" 
         width="140" 
         height="200" 
@@ -65,7 +65,7 @@ endfunction
 
 Nessa função, a única diferença está nos loops for que executam a eliminação. Aqui, quando encontramos um pivo igual a 0, procuramos pelo índice do primeiro elemento na mesma coluna que seja diferente de 0 e o usamos para executar a troca de linhas. Como a função find retorna um índice que se baseia na posição dos elementos a partir de onde foi chamada, é necessário ajustar com um -1 o índice quando fazemos a troca de linhas. Retorno da questão 3:
 
-<img src="q3.png" 
+<img src="images/q3.png" 
         alt="gaussian elimination 2" 
         width="350" 
         height="300" 
@@ -106,7 +106,7 @@ endfunction
 
 A diferença dessa função para questão anterior está no fato de que agora usamos a função ```max``` junto da função ```abs```. A primeira localiza o maior elemento de um vetor ou matriz e retorna seu índice, enquanto a segunda transforma todos os números em seu valor absoluto, de forma que, com as duas, encontramos o maior valor em módulo para o pivô. Após encontrarmos o índice desse novo pivô, a lógica da função permanece a mesma. Retorno da questão 4:
 
-<img src="q4.png" 
+<img src="images/q4.png" 
         alt="gaussian elimination 2" 
         width="350" 
         height="300" 
@@ -159,7 +159,7 @@ endfunction
 
 Nessa questão, eu criei a função auxiliar ```Create_Permutation``` que recebe o tamanho da matriz que será permutada e quais linhas serão permutadas e retorna a matriz de permutação equivalente. Na função ```Gaussian_Elimination_4``` essa função é chamada sempre e a matriz de permutação resultante multiplica tanto a matriz C quanto a matriz P - uma matriz identidade criada para armazenar todas as permutações feitas. Retorno da questão 5:
 
-<img src="q5.png" 
+<img src="images/q5.png" 
         alt="gaussian elimination 2" 
         width="350" 
         height="350" 
@@ -255,13 +255,13 @@ disp(A2 * X)
 ```
 Nessa função eu reutilizo o código da ```Gaussian_Elimination_4```, retirando apenas a parte que resolve Ux = y, já que a função que deve resolver o sistema é outra. A função ```Resolve_com_LU``` resolve primeiro LY = B "de cima para baixo" e depois UX = Y de "baixo para cima", como faríamos normalmente com álgebra linear. Cada um desses dois processos é feito com uma vetorização dentro de um for, onde fazemos a operação de resolução avançando pelas linhas (tanto para baixo quanto para cima) utilizando simultaneamente todas as colunas de Y e B e depois de X e Y. Retornos da questão 6:
 
-<img src="q6_1.png" 
+<img src="images/q6_1.png" 
         alt="gaussian elimination 2" 
         width="250" 
         height="180" 
 	style="display: block; margin: 0 auto; position: relative" />
 
-<img src="q6_2.png" 
+<img src="images/q6_2.png" 
         alt="gaussian elimination 2" 
         width="200" 
         height="150" 
@@ -269,7 +269,7 @@ Nessa função eu reutilizo o código da ```Gaussian_Elimination_4```, retirando
 
 Ademais, gostaria de deixar claro que por algum motivo meu código não está funcionando para resolver completamente a matriz. Realizando um teste na resolução de LY = B percebi que quando multiplico de volta L * Y para adquirir B e verificar se Y está correta a última linha de B fica incorreta. Prints que mostram isso:
 
-<img src="erro LY.png" 
+<img src="images/erro LY.png" 
         alt="gaussian elimination 2" 
         width="300" 
         height="350" 
