@@ -1,5 +1,5 @@
-// Função do método iterativo de jacobi para aproximar x em Ax = b.
 function [sol, final_it, k, norm_res] = Jacobi_Method(A, b, x_0, E, M, norm_type)
+
     [n]=size(A,1)
 
     L = tril(A, -1)
@@ -16,6 +16,8 @@ function [sol, final_it, k, norm_res] = Jacobi_Method(A, b, x_0, E, M, norm_type
     k=0
     D_inv = inv(D)
     M_j = (-D_inv)*(L+U)
+	disp("raio espectral")
+	disp(max(abs(spec(M_j))))
     c_j = D_inv*b
     x_k = x_0
 
@@ -25,14 +27,11 @@ function [sol, final_it, k, norm_res] = Jacobi_Method(A, b, x_0, E, M, norm_type
         final_it = norm((x_k1 - x_k), norm_type)
         x_k = x_k1
 
-        // Parando o algoritmo quando a tolerância é passada
         if final_it < E then
             disp("Passou a tolerância")
             break
         end
         
-        // Parando o algorítmo quando o número máximo de iterações
-        // é ultrapassado
         if k == M then
             disp("Ultrapassou o número máximo de iterações")
         end
@@ -45,28 +44,24 @@ function [sol, final_it, k, norm_res] = Jacobi_Method(A, b, x_0, E, M, norm_type
 
 endfunction
 
-A = [3, -2, 1;
-     1, 3, 2;
-     -1, 2, 4]
+A = [2 -1 1;
+	 2 2 2;
+	 -1 -1 2
+]
+b = [-1; 4; -5]
 
-initial_vector = [1; 1; 1]
-max_iterations = 20
-tolerance = 0.01
-b = [1; 1; 1]
+x_0 = [0; 0; 0]
+E = 0.001
+M = 26
+norm_type = 2
 
-// com a norma máximo
-disp("Norma máximo")
-norm_type = %inf // norma máximo
-[x, final_it, num_it, norm_res] = Jacobi_Method(A, b, initial_vector, tolerance, max_iterations, norm_type)
+[aprox, final_it, k, norm_res] = Jacobi_Method(A, b, x_0, E, M)
 
-disp("x final")
-disp(x)
-
-disp("Norma da ultima iteração")
-disp(final_it)
-
-disp("Número de iterações")
-disp(num_it)
+disp("Aproximação")
+disp(aprox)
 
 disp("Norma do resíduo")
 disp(norm_res)
+
+// a matriz não tem diagonal dominante e nem raio espectral menor que 1.
+// Como o raio não é muito maior que 1, os números não estouram tanto.

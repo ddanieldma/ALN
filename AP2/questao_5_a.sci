@@ -1,7 +1,7 @@
-// Função do método iterativo de jacobi para aproximar x em Ax = b.
-function [sol, final_it, k, norm_res] = Jacobi_Method(A, b, x_0, E, M, norm_type)
+function [sol, final_it, k, norm_res] = GS_Method(A, b, x_0, E, M, norm_type)
     [n]=size(A,1)
 
+    // Criando matrizes L,D e U.
     L = tril(A, -1)
     U = triu(A, 1)
     
@@ -14,14 +14,18 @@ function [sol, final_it, k, norm_res] = Jacobi_Method(A, b, x_0, E, M, norm_type
     end
 
     k=0
-    D_inv = inv(D)
-    M_j = (-D_inv)*(L+U)
-    c_j = D_inv*b
+
+	LD_inv = inv(L + D)
+	// matriz do método
+	M_gs = (-LD_inv)*U
+	// constante do método
+	c_gs = LD_inv*b
     x_k = x_0
 
     while k < M
         k = k + 1
-        x_k1 = M_j*x_k + c_j
+		
+		x_k1 = M_gs*x_k + c_gs
         final_it = norm((x_k1 - x_k), norm_type)
         x_k = x_k1
 
@@ -45,28 +49,29 @@ function [sol, final_it, k, norm_res] = Jacobi_Method(A, b, x_0, E, M, norm_type
 
 endfunction
 
-A = [3, -2, 1;
-     1, 3, 2;
-     -1, 2, 4]
+A = [1 0 -1;
+ -1*(1/2) 1 -1*(1/4);
+  1 -1*(1/2) 1
+]
 
-initial_vector = [1; 1; 1]
-max_iterations = 20
-tolerance = 0.01
-b = [1; 1; 1]
+disp("Autovalores")
+disp(spec(A))
 
-// com a norma máximo
-disp("Norma máximo")
-norm_type = %inf // norma máximo
-[x, final_it, num_it, norm_res] = Jacobi_Method(A, b, initial_vector, tolerance, max_iterations, norm_type)
+b = [(1/5); -1*(1425/1000); 2]
+x_0 = [0; 0; 0]
+E = 0.01
+M = 300
+norm_type = 2
 
-disp("x final")
-disp(x)
+[aprox, final_it, k, norm_res] = GS_Method(A, b, x_0, E, M)
 
-disp("Norma da ultima iteração")
-disp(final_it)
-
-disp("Número de iterações")
-disp(num_it)
+disp("Aproximação")
+disp(aprox)
 
 disp("Norma do resíduo")
 disp(norm_res)
+
+disp("Iterações")
+disp(k)
+
+// a aproximação fununcia
