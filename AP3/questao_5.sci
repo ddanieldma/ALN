@@ -56,10 +56,57 @@ function [lambda, x1, k, n_erro] = Metodo_potencia_v1(A, x0, epsilon, M)
 	end
 endfunction
 
-// A = [1 1;
-// 	 2 0]
 
-// x0 = [1; 0]
+function [lambda, x1, k, n_erro] = Metodo_potencia_v2(A, x0, epsilon, M)
+	// Encontra o autovalor dominante da matriz pelo método da potência, utilizando
+	// o Quociente de Rayleigh.
+
+	// Inicializando contador de iterações.
+	k = 0
+
+	// Redução de escala.
+	x0 = x0/norm(x0, 2)
+
+	// Primeira iteração.
+	x1 = A*x0
+
+	// Inicializando erro.
+	n_erro = epsilon+1
+
+	while k<=M && n_erro >= epsilon then
+		// Aproximando lambda com o quociente de Rayleigh.
+		lambda = x1'*x0
+		
+		// Ajuste do vetor.
+		if lambda<0 then
+			x1 = -x1
+		end
+
+		// Redução de escala.
+		x1 = x1/norm(x1, 2)
+
+		// Erro da iteração atual.
+		n_erro = norm((x1-x0), 2)
+
+		// Indo para a próxima iteração.
+		x0 = x1
+		x1 = A*x0
+		k = k+1
+	end
+
+endfunction
+
+
+// Matriz com autovalores que são um o oposto do outro.
+
+// A = [-2 -3 -3;
+// 	 -4 -2 -4;
+// 	 4 3 5]
+// // 
+
+// disp(spec(A))
+
+// disp(spec(A))
 
 // [lambda, x1, k, n_erro] = Metodo_potencia_v1(A, x0, 0.001, 100)
 
@@ -71,49 +118,15 @@ endfunction
 // disp(k)
 // disp("Erro da última iteração")
 // disp(n_erro)
-// disp("Autovalores pelo scilab")
-// disp(spec(A))
+// O método não converge, devido à inexistência de um autovalor dominante.
 
-// A = [1 2 3 4;
-// 	 2 1 4 10;
-// 	 3 4 1 -7;
-// 	 5 4 5 1]
-
-// x0 = [1; 0; 0; 0]
-
-// for i=1:1:5
-// 	disp("===================================")
-	
-// 	epsilon = 1/(10**i)
-// 	disp("epsilon:")
-// 	disp(epsilon)
-
-// 	[lambda, x1, k, n_erro] = Metodo_potencia_v1(A, x0, epsilon, 100)
-	
-// 	disp("Aproximação do autovalor")
-// 	disp(lambda)
-// 	disp("Autovetor dominante")
-// 	disp(x1/max(x1))
-// 	disp("Número de iterações")
-// 	disp(k)
-// end
-
-// disp("Autvalor dominante da matriz")
-// autovalores = spec(A)
-// [dom, idx] = max(abs(autovalores))
-// if autovalores(idx) < 0 then
-// 	dom = -dom
-// end
-// disp(dom)
-
-A = [-2.5 3.5 -2.5;
-	 -1 2 1;
-	 -3.5 3.5 -1.5]
+// Matriz com dois autovalores muito próximos.
+A = [499/100 399/100 399/100;
+	 -1/100 499/100 -1/100;
+	 1/100 -399/100 101/100]
+// 
 
 x0 = [1; 0; 0]
-
-disp("Autovalores da matriz A")
-disp(spec(A))
 
 [lambda, x1, k, n_erro] = Metodo_potencia_v1(A, x0, 0.001, 100)
 
@@ -123,11 +136,19 @@ disp("Autovetor dominante")
 disp(Ajusta_vetor(x1))
 disp("Número de iterações")
 disp(k)
-disp("Erro da última iteração")
-disp(n_erro)
 
-// Pra um autovalor dominante negativo o método parece não ter convergido,
-// ultrapassando o limite de iterações mas encontrando o valor absoluto do autovalor
-// e encontrando o autovetor dominante.
-// Fazendo a correção de verificar se o valor dominante no vetor é negativo
-// e transformar o lambda para o negativo caso seja funfou.
+[lambda, x1, k, n_erro] = Metodo_potencia_v2(A, x0, 0.001, 100)
+
+disp("=========================================")
+disp("Autovalor dominante")
+disp(lambda)
+disp("Autovetor dominante")
+disp(Ajusta_vetor(x1))
+disp("Número de iterações")
+disp(k)
+
+// O algoritmo falha em convergir para algum dos autovalores e o autovetor final é uma combinação 
+// dos dois autovetores.
+// A versão 1 do método da potência não converge, apesar de acabar retornando um dos autovalores.
+// A versão 2 converge para um autovalor "no meio dos dois" e retorna um autovetor que parece
+// ser uma combinação dos dois autovetores, apesar de tender mais para um autovetor do que para o outro

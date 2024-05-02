@@ -105,25 +105,67 @@ function [lambda, x1, k, n_erro] = Potencia_deslocada_inversa(A, x0, epsilon, al
 	end
 endfunction
 
-A = [0 5 -6;
-	-4 12 -12;
-	-2 -2 10]
+// A = [0 5 -6;
+// 	-4 12 -12;
+// 	-2 -2 10]
 
-x0 = [1; 1; 1]
+// A = [1 0 1;
+// 	 1 1 1;
+// 	 0 1 1]
+// 
 
-[lambda1, x1, k, n_erro] = Potencia_deslocada_inversa(A, x0, 0.001, 5, 100)
+A = [-2.5 3.5 -2.5;
+     -1 2 1;
+     -3.5 3.5 -1.5]
+//  
 
-disp("Autovalor encontrado: ")
-disp(lambda1)
-disp("Autovetor encontrado: ")
-disp(x1)
-[max_value, max_index] = max(abs(x1))
-if x1(max_index) < 0 then
-    max_value = -max_value
+
+AtA = A'*A
+
+// x0 = [1; 1; 1]
+
+// // Centros dos discos.
+// centros = diag(AtA)
+
+// // Número de linhas da matriz
+// [n] = size(A, 1)
+
+// for i=1:n
+// 	disp("===========================================")
+// 	disp("Centro do disco proximo do autovalor: ")
+// 	disp(centros(i))
+	
+// 	[lambda1, x1, k, n_erro] = Potencia_deslocada_inversa(AtA, x0, 0.001, centros(i), 100)
+	
+// 	disp("Autovalor encontrado: ")
+// 	disp(lambda1)
+// end
+
+// Matriz com discos de Gerschgorin disjuntos. Como os centros estão bem espaçados
+// e os raios são bem pequenos os discos são disjuntos.
+A = [10 1 1/2;
+     1 20 2;
+     1/2 2 30]
+// 
+
+x0 = [1; 0; 0]
+[n] = size(A, 1)
+
+// Centros dos discos.
+centros = diag(A)
+disp("Centros dos discos: ")
+disp(centros)
+
+autovalores = zeros(n)
+
+for i=1:n
+	[lambda1, x1, k, n_erro] = Potencia_deslocada_inversa(A, x0, 0.001, centros(i), 100)
+	
+	autovalores(i) = lambda1
 end
-disp(x1/max_value)
-disp("Número de iterações: ")
-disp(k)
-disp("Erro das útlimas duas iterações: ")
-disp(n_erro)
 
+disp("Autovalores encontrados: ")
+disp(autovalores)
+
+disp("Autovalores dados pelo scilab: ")
+disp(spec(A))
