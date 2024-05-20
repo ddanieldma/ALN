@@ -1,3 +1,8 @@
+# ALN - Aula Prática 3
+Autor: Daniel de Miranda Almeida
+
+Matrícula: 241708065, Curso: Ciência de Dados
+
 # Questão 1
 
 ```scilab
@@ -11,7 +16,7 @@ function [x] = Ajusta_vetor(x)
 	end
 	x = x/max_value
 endfunction
-
+****
 function [lambda, x1, k, n_erro] = Metodo_potencia_v1(A, x0, epsilon, M)
 	// Calcula o autovalor dominante da matriz de maneira iterativa usando o método
 	// da potência.
@@ -51,7 +56,7 @@ function [lambda, x1, k, n_erro] = Metodo_potencia_v1(A, x0, epsilon, M)
 endfunction
 ```
 
-Nessa função estamos, a cada iteração, divindo o vetor pela coordenada de maior valor, de forma a manter essa coordenada sempre igual a 1 e em seguida fazendo a iteração multiplicando x0 por A. É necessário sempre fazer uma redução na escala do vetor para evitar que ele tome valores cada vez maiores que possam causar erros de arredondamento. A cada iteração pegamos o lambda, que é o elemento com maior valor absoluto do vetor e novamente dividindo o vetor por esse valor. Obtemos o erro da iteração calculando a norma infinito da diferença do vetor da iteração atual pelo vetor da iteração atual. Isso se repete até que o erro esteja abaixo de uma tolerância ou tenhamos ultrapassado o número limite de iterações. Conforme fazemos as iterações, o elemento com maior valor absoluto do vetor se aproxima do autovalor dominante da matriz.
+Nessa função estamos, a cada iteração, divindo o vetor pela coordenada de maior valor, de forma a manter essa coordenada sempre igual a 1 e em seguida fazendo a iteração multiplicando x0 por A. É necessário sempre fazer uma redução na escala do vetor para evitar que ele tome valores cada vez maiores que possam causar erros de arredondamento. A cada iteração pegamos o lambda, que é o elemento com maior valor absoluto do vetor e novamente dividimos o vetor por esse valor. Obtemos o erro da iteração calculando a norma infinito da diferença do vetor da iteração atual pelo vetor da iteração anterior. Isso se repete até que o erro esteja abaixo de uma tolerância ou tenhamos ultrapassado o número limite de iterações. Conforme fazemos as iterações, o elemento com maior valor absoluto do vetor se aproxima do autovalor dominante da matriz.
 
 ```scilab
 function [lambda, x1, k, n_erro] = Metodo_potencia_v2(A, x0, epsilon, M)
@@ -148,7 +153,7 @@ function [lambda, x1, k, n_erro] = Potencia_deslocada_inversa(A, x0, epsilon, al
 endfunction
 ```
 
-Nessa função fazemos o deslocamento da matriz A subtraindo dela uma matriz identidade, isso faz com que o método convirja para o autovalor mais próximo do alfa. Além disso, com o uso da potência inversa temos que o método converge para o autovalor mais rapidamente. Nessa função, a aproximação do lambda é feita usando o quociente de Rayleigh da mesma forma que na versão 2 do método da potência.
+Nessa função fazemos o deslocamento da matriz A subtraindo dela uma matriz identidade multiplicada por $\alpha$. Isso faz com que o método convirja para o autovalor mais próximo de $\alpha$. Além disso, com o uso da potência inversa temos que o método converge para o autovalor mais rapidamente. Nessa função, a aproximação do lambda é feita usando o quociente de Rayleigh da mesma forma que na versão 2 do método da potência.
 
 # Questão 3
 
@@ -334,7 +339,7 @@ disp(spec(A))
   <img src="images/matriz_3_q3_v2.png" height="240" />
 </p>
 
-Podemos ver que o método não converge para a versão 1 do algorítmo, e, portanto, não chega a uma aproximação do autovalor dominante da matriz A. Isso acontece porque quando obtemos o elemento do valor com maior valor absoluto não estamos tomando o cuidado de manter o sinal dele, estamos pegando seu valor absoluto sempre. Podemos corrigir o código da seguinte maneira: 
+Podemos ver que o método não converge para a versão 1 do algorítmo, e, portanto, não chega a uma aproximação do autovalor dominante da matriz A. Isso acontece porque quando obtemos o elemento do valor com maior valor absoluto não estamos tomando o cuidado de manter o sinal dele, estamos pegando seu valor absoluto sempre. Podemos corrigir o código da seguinte maneira (as linhas com "//" ao final são as linhas adicionadas): 
 
 ```scilab
 function [lambda, x1, k, n_erro] = Metodo_potencia_v1(A, x0, epsilon, M)
@@ -416,7 +421,7 @@ A = [-2.5 3.5 -2.5;
 AtA = A'*A
 ```
 
-Para encontrar os autovalores eu utilizei o método da potência inversa deslocada colocando como alfa os centros dos discos (os elementos da diagonal de A), uma vez que estes são as melhores aproximações para os autovalores da matriz - pois os autovalores são todos reais e, como o disco define um intervalo onde o autovalor possa estar, a melhor estimativa é o centro desse intervalo. Contudo, se houver uma sobreposição dos discos, pode ocorrer uma situação em que utilizar o centro de dois discos diferentes acaba fazendo o método convergir para o mesmo valor:
+Para encontrar os autovalores eu utilizei o método da potência inversa deslocada colocando como alfa os centros dos discos (os elementos da diagonal de A), uma vez que estes são as melhores aproximações para os autovalores da matriz - os autovalores são todos reais e, como o disco define um intervalo onde o autovalor possa estar, a melhor estimativa é o centro desse intervalo. Contudo, se houver uma sobreposição dos discos, pode ocorrer uma situação em que utilizar o centro de dois discos diferentes acaba fazendo o método convergir para o mesmo valor:
 
 ```scilab
 // Centros dos discos.
@@ -589,4 +594,4 @@ Com ```x0 = [1; 1; 1]```:
   <img src="images/q5_matriz2_v2_3.png" height="240" />
 </p>
 
-Podemos ver que o primeiro método nunca converge de fato e nós três testes retorna a aproximação que não é do autovalor dominante da matriz. A segunda versão do método retornou aproximações que ficam mais próximas do menor autovalor. Além disso, se observamos a aproximação do autovetor retornado vemos que ele se parece com uma mistura dos dois autovetores de fato da matriz.
+Podemos ver que o primeiro método nunca converge de fato e nós três testes retorna a aproximação que não é do autovalor dominante da matriz. A segunda versão do método retornou aproximações que ficam mais próximas do menor autovalor entre os dois maiores. Além disso, se observamos a aproximação do autovetor retornado vemos que ele se parece com uma mistura dos dois autovetores relacionados aos maiores autovalores da matriz.
