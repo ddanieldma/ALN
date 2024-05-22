@@ -113,32 +113,50 @@ matriz_indicadora = [previsoes, acertos_erros]
 linhas = size(matriz_indicadora, 'r')
 
 // Contagem de verdadeiros positivos.
-true_p = 0
+v_p = 0
 // Contagem de verdadeiros negativos.
-true_n = 0
+v_n = 0
 // Contagem de falsos positivos.
-false_p = 0
+f_p = 0
 // Contagem de falsos negativos.
-false_n = 0
+f_n = 0
 
 
 for i = 1:linhas
 	if (matriz_indicadora(i,1) >= 0 & matriz_indicadora(i,2)) then
-		true_p = true_p + 1;
+		v_p = v_p + 1;
 	elseif (matriz_indicadora(i,1) < 0 & (matriz_indicadora(i,2))) then
-		true_n = true_n + 1;
-	elseif (matriz_indicadora(i,1) >= 0 & matriz_indicadora(i,2)) then
-		false_p = false_p + 1;
+		v_n = v_n + 1;
+	elseif (matriz_indicadora(i,1) >= 0 & ~(matriz_indicadora(i,2))) then
+		f_p = f_p + 1;
 	else
-		false_n = false_n + 1;
+		f_n = f_n + 1;
 	end
 end
 
 disp("Verdadeiros positivos:")
-disp(true_p)
+disp(v_p)
 disp("Verdadeiros negativos:")
-disp(true_n)
+disp(v_n)
 disp("Falsos positivos:")
-disp(false_p)
+disp(f_p)
 disp("Falsos negativos:")
-disp(false_n)
+disp(f_n)
+
+total = (v_p + f_p + v_n + f_n)
+
+acuracia = (v_p + v_n) / total
+disp("Acurácia:")
+disp(acuracia)
+precisao = v_p / (v_p + f_p)
+disp("Precisão:")
+disp(precisao)
+recall = v_p / (v_p + f_n)
+disp("Recall")
+disp(recall)
+p_falso_alarme = f_p / (v_p + f_p)
+disp("Probabilidade de falso alarme")
+disp(p_falso_alarme)
+p_omissao_alarme = f_n / (v_n + f_n)
+disp("Probabilidade da omissão de alarme")
+disp(p_omissao_alarme )
