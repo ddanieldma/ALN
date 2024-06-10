@@ -43,39 +43,33 @@ function [q, r_vetor] = Other_project_into(Q, a)
 
 endfunction
 
-// function [Q, R] = ComputeQR(A)
-//     // Calcula a decomposição QR da matriz A.
+function [Q, R] = Compute_QR(A)
+    // Calcula a decomposição QR da matriz A.
     
-//     n = size(A, 'c');
+    n = size(A, 'r')
 
-//     // Primeiro vetor é a primeira coluna de A.
-//     v_current = A(:,1)
-//     q_current = v_current/norm(v_current, 2)
-//     v_previous = v_current
-//     q_previous = q_current
+    Q = zeros(n, n)
+    R = zeros(n, n)
 
-//     Q = q_1
-//     R = []
-
-//     for i = 2:n
-//         // Os outros vetores são a projeção da próxima coluna de A no espaço
-//         // formado.
-
-//         // Calculando proxima projeção.
-//         v_current = v_previous - proj(q_previous)
-//         q_current = v_current/norm(v_current, 2)
-//         Q = [Q, q_current]
-
-//         // Atualizando variáveis
-//         v_previous = v_current
-//         q_previous = q_current
-//     end
-// endfunction
+    for j = 1:n
+        a_j = A(:, j)
+        v = a_j
+        for i = 1:j-1
+            q_i = Q(:, i)
+            r_ij = q_i' * a_j
+            R(i, j) = r_ij
+            v = v - r_ij * q_i
+        end
+        v_norm = norm(v, 2)
+        R(j, j) = v_norm
+        Q(:,j) = v/v_norm
+    end
+endfunction
 
 function [Q, R] = Other_compute_QR(A)
     // Calcula a decomposição QR da matriz A.
     
-    n = size(A, 'c');
+    n = size(A, 'r');
 
     // Primeiro vetor é a primeira coluna de A.
     v_current = A(:,1)
@@ -83,15 +77,9 @@ function [Q, R] = Other_compute_QR(A)
     v_norm = norm(v_current, 2)
     q_current = v_current/v_norm
     r_current = [v_norm; zeros(n-1, 1)]
-    
-    // Atualizando variáveis.
-    v_previous = v_current
-    q_previous = q_current
 
     Q = q_current
     R = [r_current]
-
-    disp(R)
 
     for i = 2:n
         // Os outros vetores são a projeção da próxima coluna de A no espaço
@@ -99,9 +87,6 @@ function [Q, R] = Other_compute_QR(A)
 
         // Calculando proxima projeção.
         [q_current, r_vetor] = Other_project_into(Q, A(:, i))
-        if i==2 then
-            disp(r_vetor)
-        end
 
         // Atualizando variáveis
         Q = [Q q_current]
@@ -116,6 +101,18 @@ A = [1 1 1;
      0 1 1]
 
 [Q, R] = Other_compute_QR(A)
+
+disp(Q, R)
+
+// Conferindo se funcionou.
+disp(Q * R) // Tem que printar A.
+disp(Q' * Q) // Tem que printar a identidade.
+
+A = [1 1 1;
+     1 0 1;
+     0 1 1]
+
+[Q, R] = Compute_QR(A)
 
 disp(Q, R)
 
