@@ -118,3 +118,7 @@ A = [1 1 1;
 [Q, R] = Other_compute_QR(A)
 
 disp(Q, R)
+
+// Conferindo se funcionou.
+disp(Q * R) // Tem que printar A.
+disp(Q' * Q) // Tem que printar a identidade.
