@@ -28,7 +28,8 @@ function [Q, R, P] = qr_GSP(A)
 			normas(i) = norm(A(:,i))
 		end
 		// Obtendo maior coluna e seu índice.
-		[maior_coluna, coluna_indice] = max(normas);
+		[_, coluna_indice] = max(normas);
+        coluna_indice = coluna_indice + j - 1
 		// Criando permutação.
         [Perm] = Create_perm_col(n, j, coluna_indice)
 		// Permutando A.
@@ -50,17 +51,13 @@ function [Q, R, P] = qr_GSP(A)
             // Calculando projeção de a no espaço.
             v = v - r_ij * q_i
         end
-        v_norm = norm(v, 2)
+        v_norm = norm(v)
         R(j, j) = v_norm
         
         // Normalizando v.
         Q(:,j) = v/v_norm
-
-		// Subtraindo o q anterior de A.
-		A = A - Q(:, j) * ones(1, size(A, 2))
     end
 endfunction
-
 
 function [error] = Compute_accuracy_QR(Q, R, A)
     // Compute how close to the initial A matrix QR is.
@@ -84,7 +81,7 @@ disp(Q' * Q) // Tem que printar a identidade.
 disp(sum(Q' * Q))
 disp("Q * R")
 P_inv = inv(P)
-disp(P_inv * Q * R) // Tem que printar A.
+disp(Q * R * P_inv) // Tem que printar A.
 disp("Erro: ")
 erro = Compute_accuracy_QR(Q, R, A)
 disp(erro)
