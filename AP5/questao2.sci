@@ -1,4 +1,4 @@
-function [Q, R] = Other_compute_QR(A)
+function [Q, R] = qr_GSM(A)
 	// Outra forma de calcular a decomposição QR da matriz A.
 
 	n = size(A, 'r')
@@ -31,7 +31,7 @@ A = [1 1 1;
      1 0 1;
      0 1 1]
 
-[Q, R] = My_compute_QR(A)
+[Q, R] = My_qr_GSM(A)
 
 disp(Q, R)
 
@@ -48,7 +48,7 @@ A = [1 10 8 2;
      4 2 2 0;
      2 0 8 5]
 
-[Q, R] = Compute_QR(A)
+[Q, R] = qr_GSM(A)
 
 disp(Q, R)
 
@@ -68,7 +68,7 @@ A = [16.90  5.25 13.27 22.56 10.08;
 21.78  6.29 17.63 17.70 20.36;
 23.74 10.50  1.78 10.18  4.68]
 
-[Q, R] = Compute_QR(A)
+[Q, R] = qr_GSM(A)
 
 disp(Q, R)
 
