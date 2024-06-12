@@ -25,6 +25,44 @@ function [U, R] = qr_House(A)
     R = triu(A)
 endfunction
 
+function [U, R] = qr_House(A)
+    // Matriz que a calcula a decomposição QR de A usando os
+    // Refletores de Householder.
+
+    [m, n] = size(A)
+    
+    k = min(m, n)
+    R = A
+    U = zeros(m, n)
+
+    // Construindo vetor de Househoulder
+    for j = 1:k
+        y = R(j:m,j)
+        
+        // Calculando matriz de Houlsehoulder para essa coluna.
+        y_norm = norm(y)
+        y_len = size(y, 'r')
+
+        e_1 = zeros(y_len, 1)
+        e_1(1) = 1
+
+        if y(1) < 0 then
+            y_norm = -y_norm
+        end
+
+        u = y - y_norm * e_1
+
+        H_j = eye(y_len, y_len) - 2 * u * u'
+
+        // Matriz H ampliada para aplicar em toda a matriz A.
+        H = eye(m, m)
+        H(k:m, k:m) = H_j
+
+        // Atualizando R.
+        R = H * R
+    end
+endfunction
+
 function [Q] = Constroi_Q_House(U)
     // Constrói a matriz Q da decomposição QR a partr da matriz U do método
     // de Householder.
