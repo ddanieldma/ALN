@@ -8,7 +8,7 @@ endfunction
 
 // Decomposição QR com pivoteamento de colunas.
 function [Q, R, P] = qr_GSP(A)
-    // Calcula a decomposição QR da matriz A.
+    // Calcula a decomposição QR da matriz A usando pivoteamento de colunas.
     
     // Tamanho de A.
     n = size(A, 'r')
@@ -67,59 +67,38 @@ function [error] = Compute_accuracy_QR(Q, R, A)
     error = sum(error)
 endfunction
 
+// Matriz simples.
 A = [1 1 1;
      1 0 1;
      0 1 1]
 
-[Q, R, P] = qr_GSP(A)
+[Q, R] = qr_GSP(A)
 
 disp(Q, R)
 
-// Conferindo se funcionou.
 disp("QT * Q")
 disp(Q' * Q) // Tem que printar a identidade.
-disp(sum(Q' * Q))
 disp("Q * R")
-P_inv = inv(P)
-disp(Q * R * P_inv) // Tem que printar A.
+disp(Q * R) // Tem que printar A.
 disp("Erro: ")
 erro = Compute_accuracy_QR(Q, R, A)
 disp(erro)
 
-// A = [1 10 8 2;
-//      5 6 3 7;
-//      4 2 2 0;
-//      2 0 8 5]
+// Matriz aleatória.
+A = [16.90  5.25 13.27 22.56 10.08;
+ 8.06 23.25  3.21 21.08 13.28;
+20.65 10.43 19.83 11.52  5.40;
+21.78  6.29 17.63 17.70 20.36;
+23.74 10.50  1.78 10.18  4.68]
 
-// [Q, R] = qr_GSP(A)
+[Q, R] = qr_GSP(A)
 
-// disp(Q, R)
+disp(Q, R)
 
-// // Conferindo se funcionou.
-// disp("QT * Q")
-// disp(Q' * Q) // Tem que printar a identidade.
-// disp("Q * R")
-// disp(Q * R) // Tem que printar A.
-// disp("Erro: ")
-// erro = Compute_accuracy_QR(Q, R, A)
-// disp(erro)
-
-// A = [16.90  5.25 13.27 22.56 10.08;
-//  8.06 23.25  3.21 21.08 13.28;
-// 20.65 10.43 19.83 11.52  5.40;
-// 21.78  6.29 17.63 17.70 20.36;
-// 23.74 10.50  1.78 10.18  4.68]
-
-// [Q, R] = qr_GSP(A)
-
-// disp(Q, R)
-
-// // Conferindo se funcionou.
-// disp("QT * Q")
-// disp(Q' * Q) // Tem que printar a identidade.
-// disp(sum(Q' * Q))
-// disp("Q * R")
-// disp(Q * R) // Tem que printar A.
-// disp("Erro: ")
-// erro = Compute_accuracy_QR(Q, R, A)
-// disp(erro)
+disp("QT * Q")
+disp(Q' * Q) // Tem que printar a identidade.
+disp("Q * R")
+disp(Q * R) // Tem que printar A.
+disp("Erro: ")
+erro = Compute_accuracy_QR(Q, R, A)
+disp(erro)

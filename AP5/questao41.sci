@@ -81,21 +81,70 @@ function [Q] = Constroi_Q_House(U)
 	end
 endfunction
 
+// Matriz simples.
 A = [1 1 1;
      1 0 1;
-     0 1 1;
-     1 1 1]
-
+     0 1 1]
+// 
+disp("Primeira versão")
 [U, R] = qr_House_v1(A)
-disp("U 1")
-disp(U)
-[U, R] = qr_House_v2(A)
-disp("U 2")
-disp(U)
-[Q] = Constroi_Q_House_v2(U)
+[Q] = Constroi_Q_House(U)
 
-disp("Q * R")
-disp(Q * R)
+disp(U, Q, R)
 
 disp("QT * Q")
-disp(Q' * Q)
+disp(Q' * Q) // Tem que printar a identidade.
+disp("Q * R")
+disp(Q * R) // Tem que printar A.
+disp("Erro: ")
+erro = Compute_accuracy_QR(Q, R, A)
+disp(erro)
+
+disp("Segunda versão")
+[U, R] = qr_House_v1(A)
+[Q] = Constroi_Q_House(U)
+
+disp(U, Q, R)
+
+disp("QT * Q")
+disp(Q' * Q) // Tem que printar a identidade.
+disp("Q * R")
+disp(Q * R) // Tem que printar A.
+disp("Erro: ")
+erro = Compute_accuracy_QR(Q, R, A)
+disp(erro)
+
+// Matriz aleatória.
+A = [16.90  5.25 13.27 22.56 10.08;
+8.06 23.25  3.21 21.08 13.28;
+20.65 10.43 19.83 11.52  5.40;
+21.78  6.29 17.63 17.70 20.36;
+23.74 10.50  1.78 10.18  4.68]
+
+disp("Primeira versão")
+[U, R] = qr_House_v1(A)
+[Q] = Constroi_Q_House(U)
+
+disp(U, Q, R)
+
+disp("QT * Q")
+disp(Q' * Q) // Tem que printar a identidade.
+disp("Q * R")
+disp(Q * R) // Tem que printar A.
+disp("Erro: ")
+erro = Compute_accuracy_QR(Q, R, A)
+disp(erro)
+
+disp("Segunda versão")
+[U, R] = qr_House_v1(A)
+[Q] = Constroi_Q_House(U)
+
+disp(U, Q, R)
+
+disp("QT * Q")
+disp(Q' * Q) // Tem que printar a identidade.
+disp("Q * R")
+disp(Q * R) // Tem que printar A.
+disp("Erro: ")
+erro = Compute_accuracy_QR(Q, R, A)
+disp(erro)
