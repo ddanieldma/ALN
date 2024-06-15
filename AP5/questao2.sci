@@ -1,14 +1,21 @@
 function [Q, R] = qr_GSM(A)
 	// Outra forma de calcular a decomposição QR da matriz A.
 
+	// Pegando número de linhas de A.
 	n = size(A, 'r')
 
 	for j = 1:n
+		// Vetor atual é a j-esima coluna de A.
 		v = A(:, j)
+		
+		// A partir da segunda iteração:
 		for i = 1:j-1
+			// Fazendo projeções de v no espaço dos q's já criados.
 			q_i = Q(:, i)
+			// Coeficiente.
 			r_ij = q_i' * v
 			R(i, j) = r_ij
+			// Pegando perpendicular da projeção.
 			v = v - r_ij * q_i
 		end
 
@@ -24,7 +31,7 @@ function [error] = Compute_accuracy_QR(Q, R, A)
 
     QR = Q * R
     error = A - QR
-    error = sum(error)
+    error = sum(abs(error))
 endfunction
 
 // Matriz simples.
@@ -44,12 +51,13 @@ disp("Erro: ")
 erro = Compute_accuracy_QR(Q, R, A)
 disp(erro)
 
-// Matriz aleatória.
-A = [16.90  5.25 13.27 22.56 10.08;
-8.06 23.25  3.21 21.08 13.28;
-20.65 10.43 19.83 11.52  5.40;
-21.78  6.29 17.63 17.70 20.36;
-23.74 10.50  1.78 10.18  4.68]
+// Matriz aleatória com colunas quase lineramente dependentes.
+A = [ 51. 92. 14. 71. 143.0000242 ;
+     20. 82. 86. 74. 101.99980867;
+     87. 99. 23.  2. 185.99982751;
+     52.  1. 87. 29. 52.99994377;
+      1. 63. 59. 20. 63.99989872]
+//   
 
 [Q, R] = qr_GSM(A)
 

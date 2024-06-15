@@ -59,12 +59,13 @@ function [Q, R, P] = qr_GSP(A)
     end
 endfunction
 
-function [error] = Compute_accuracy_QR(Q, R, A)
+function [error] = Compute_accuracy_QR(Q, R, A, P)
     // Compute how close to the initial A matrix QR is.
 
     QR = Q * R
+    QR = QR * P
     error = A - QR
-    error = sum(error)
+    error = sum(abs(error))
 endfunction
 
 // Matriz simples.
@@ -72,33 +73,33 @@ A = [1 1 1;
      1 0 1;
      0 1 1]
 
-[Q, R] = qr_GSP(A)
+[Q, R, P] = qr_GSP(A)
 
 disp(Q, R)
 
 disp("QT * Q")
 disp(Q' * Q) // Tem que printar a identidade.
 disp("Q * R")
-disp(Q * R) // Tem que printar A.
+disp(Q * R * P) // Tem que printar A.
 disp("Erro: ")
-erro = Compute_accuracy_QR(Q, R, A)
+erro = Compute_accuracy_QR(Q, R, A, P)
 disp(erro)
 
-// Matriz aleatória.
-A = [16.90  5.25 13.27 22.56 10.08;
- 8.06 23.25  3.21 21.08 13.28;
-20.65 10.43 19.83 11.52  5.40;
-21.78  6.29 17.63 17.70 20.36;
-23.74 10.50  1.78 10.18  4.68]
+// Matriz aleatória com colunas quase lineramente dependentes.
+A = [ 51. 92. 14. 71. 143.0000242 ;
+     20. 82. 86. 74. 101.99980867;
+     87. 99. 23.  2. 185.99982751;
+     52.  1. 87. 29. 52.99994377;
+      1. 63. 59. 20. 63.99989872]
+//   
 
-[Q, R] = qr_GSP(A)
-
+[Q, R, P] = qr_GSP(A)
 disp(Q, R)
 
 disp("QT * Q")
 disp(Q' * Q) // Tem que printar a identidade.
 disp("Q * R")
-disp(Q * R) // Tem que printar A.
+disp(Q * R * P) // Tem que printar A.
 disp("Erro: ")
-erro = Compute_accuracy_QR(Q, R, A)
+erro = Compute_accuracy_QR(Q, R, A, P)
 disp(erro)
