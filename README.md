@@ -11,3 +11,6 @@ Implementação dos métodos iterativos para encontrar autovalores e autovetores
 
 ### Aula Prática 4
 Implementação do método de mínimos quadrados para um regressão linear para previsão baseado em dados. Uma aprendizagem de máquina bem rudimentar.
+
+### Aula Prática 5
+Implementação de diversos métodos para o cálculo da composição QR de matrizes.  
